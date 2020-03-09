@@ -6,6 +6,5 @@ module.exports = (api, options, rootOptions) => {
   });
   api.render('../ui/ant-design-vue');
   api.injectImports('src/vendor/index.js', `import './ant.js'`);
-  api.onCreateComplete(() => {
-  });
+  api.onCreateComplete(() => {});
 };

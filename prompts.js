@@ -1,50 +1,38 @@
 /**
  *
- * @authors liwb (you@example.org)
- * @date    2019-04-29 09:31
- * @version $ IIFE
+ * @authors zzl (you@example.org)
+ * @date    2020-03-09 15:35
  */
-module.exports = [
-  {
+module.exports = [{
     name: 'application',
     type: 'list',
-    message: 'Choose whether your app is a PC or a mobile(default:mobile)',
-    choices: [
-      {
+    message: 'Choose whether your app is a PC or a mobile(default:PC)',
+    choices: [{
         name: 'PC',
         value: 'pc'
       },
       {
         name: 'mobile',
         value: 'mobile'
-      },
-      {
-        name: 'H5离线包',
-        value: 'offline'
       }
     ],
-    default: 'mobile'
+    default: 'pc'
   },
   {
     name: 'ui-framework',
     type: 'list',
-    message: 'choice UI Framework(default:none)',
-    choices: [
-      {
+    message: 'choice UI Framework(default:ant)',
+    choices: [{
         name: 'Element UI',
         value: 'element-ui'
-      },
-      {
-        name: 'iView',
-        value: 'iview'
       },
       {
         name: 'ant-design-vue',
         value: 'ant'
       },
       {
-        name: 'h_ui',
-        value: 'hui'
+        name: 'vant',
+        value: 'vant'
       },
       {
         name: 'none',
@@ -52,6 +40,6 @@ module.exports = [
       }
     ],
     when: answers => answers.application === 'pc',
-    default: 'none'
+    default: 'ant'
   }
 ];

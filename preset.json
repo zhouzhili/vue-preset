@@ -1,15 +1,22 @@
 {
   "useConfigFiles": true,
-  "packageManager": "yarn",
+  "packageManager": "npm",
   "useTaobaoRegistry": true,
   "cssPreprocessor": "less",
-  "router": false,
-  "vuex": false,
+  "router": true,
+  "vuex": true,
   "routerHistoryMode": false,
   "plugins": {
     "@vue/cli-plugin-babel": {},
-    "vue-cli-plugin-qrcode": {
-      "version": "*"
+    "@vue/cli-plugin-router": {
+      "historyMode": false
+    },
+    "@vue/cli-plugin-vuex": {},
+    "@vue/cli-plugin-eslint": {
+      "config": "standard",
+      "lintOn": [
+        "save"
+      ]
     }
   }
 }
