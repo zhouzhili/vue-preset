@@ -1,18 +1,11 @@
 'use strict';
 
 const path = require('path');
-const pkg = require('./package.json');
-const webpack = require('webpack');
-const {formatDate} = require('@liwb/cloud-utils');
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const chalk = require('chalk');
-const VueRouterInvokeWebpackPlugin = require('@liwb/vue-router-invoke-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const svnInfo = require('svn-info');
 
-const N = '\n';
+// web title
+const name = 'vue-project'
+
 const resolve = (dir) => {
   return path.join(__dirname, './', dir);
 };
@@ -21,74 +14,6 @@ const isProd = () => {
   return process.env.NODE_ENV === 'production';
 };
 
-// 获取 svn 信息
-const getSvnInfo = () => {
-  const svnURL = '';
-  if (svnURL) return svnInfo.sync(svnURL, 'HEAD').lastChangedRev;
-
-  return 'unknown';
-};
-
-const genPlugins = () => {
-  const plugins = [
-    new ProgressBarPlugin({
-      format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-      clear: false
-    }),
-    new VueRouterInvokeWebpackPlugin({
-      dir: 'src/views',
-      // must set the alias for the dir option which you have set
-      alias: '@/views',
-      mode: 'hash',
-      routerDir: 'src/router',
-      ignore: ['images', 'components'],
-      redirect: [
-        {
-          redirect: '/hello',
-          path: '/'
-        }
-      ]
-    }),
-    // 为静态资源文件添加 hash，防止缓存
-    new AddAssetHtmlPlugin([
-      {
-        filepath: path.resolve(__dirname, './public/config.local.js'),
-        hash: true,
-      },
-      {
-        filepath: path.resolve(__dirname, './public/console.js'),
-        hash: true,
-      }
-    ]),
-  ];
-
-  if (isProd()) {
-    plugins.push(
-      // bannerPlugin
-      new webpack.BannerPlugin({
-        banner:
-          `@author: Winner FED${
-            N}@version: ${pkg.version}${
-            N}@description: Build time ${formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss')} and svn version ${getSvnInfo()}
-          `
-      }),
-      new CompressionWebpackPlugin({
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: new RegExp(
-          '\\.(' +
-          ['js', 'css'].join('|') +
-          ')$'
-        ),
-        threshold: 10240,
-        minRatio: 0.8,
-        cache: true
-      })
-    );
-  }
-
-  return plugins;
-};
 
 // 生产环境去掉 console.log
 const getOptimization = () => {
@@ -124,16 +49,14 @@ module.exports = {
    * Detail https://cli.vuejs.org/config/#publicPath
    */
   publicPath: './',
+  runtimeCompiler: true,
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV !== 'production',
   productionSourceMap: false,
   // webpack-dev-server 相关配置
   devServer: {
-    open: process.platform === 'darwin',
-    host: '0.0.0.0',
     port: 3000,
     https: false,
-    hotOnly: false,
     overlay: {
       warnings: false,
       errors: true
@@ -155,35 +78,18 @@ module.exports = {
     // 是否使用css分离插件 ExtractTextPlugin
     extract: isProd() ? true : false,
     // 开启 CSS source maps?
-    sourceMap: isProd() ? true : false,
+    sourceMap: isProd() ? false : true,
     // css预设器配置项
     loaderOptions: {}
   },
   configureWebpack: () => ({
-    name: 'vue-cli3-template',
+    name: name,
     resolve: {
       alias: {
-        '@': resolve('src'),
-        '@assets': resolve('src/assets'),
-        '@less': resolve('src/assets/less'),
-        '@js': resolve('src/assets/js'),
-        '@components': resolve('src/components'),
-        '@mixins': resolve('src/mixins'),
-        '@filters': resolve('src/filters'),
-        '@store': resolve('src/store'),
-        '@views': resolve('src/views'),
-
-        // 文件别名
-        'services': resolve('src/services'),
-        'variable': resolve('src/assets/less/variable.less'),
-        'utils': resolve('node_modules/@liwb/cloud-utils/dist/cloud-utils.esm'),
-        'mixins': resolve('node_modules/magicless/magicless.less'),
-        <%_ if (options.application === 'offline') { _%>
-        'native-bridge-methods': resolve('node_modules/native-bridge-methods/dist/native-bridge-methods.esm')
-        <%_ } _%>
+        '@': resolve('src')
       }
     },
-    plugins: genPlugins(),
+    externals: {},
     // https://github.com/cklwblove/vue-cli3-template/issues/12
     optimization: getOptimization()
   }),
@@ -208,9 +114,8 @@ module.exports = {
       .end();
 
     config
-      .when(process.env.NODE_ENV === 'development',
-        config => config.devtool('cheap-eval-source-map')
-      );
+      // https://webpack.js.org/configuration/devtool/#development
+      .when(process.env.NODE_ENV === 'development', config => config.devtool('cheap-source-map'))
 
     // plugin
 
@@ -275,9 +180,5 @@ module.exports = {
           config.optimization.runtimeChunk('single');
         }
       );
-  },
-  pluginOptions: {
-    lintStyleOnBuild: true,
-    stylelint: {}
   }
 };
