@@ -1,4 +1,5 @@
 # vue-preset
+
 结合 vue-cli3 的 preset 搭建基于 git repo 的前端项目模板
 
 ## 快速开始
@@ -8,9 +9,9 @@
 npm install -g @vue/cli
 
 # 根据远程 preset 创建项目
-vue create --preset cklwblove/vue-preset my-project
+vue create --preset zhouzhili/vue-preset my-project
 # or
-vue create --preset direct:https://github.com/cklwblove/vue-preset.git my-project --clone
+vue create --preset direct:https://github.com/zhouzhili/vue-preset.git my-project --clone
 
 # 本地预览
 cd my-project && yarn run serve
@@ -18,6 +19,7 @@ cd my-project && yarn run serve
 ```
 
 ## 文档
+
 ```bash
 # 本地预览
 npm run docs:dev
