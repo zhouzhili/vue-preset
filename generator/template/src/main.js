@@ -8,7 +8,7 @@ import './router/router.interceptor';
 import './components/global';
 import './icons';
 import './filters';
-import './services';
+import './utils';
 <%_ if (options['ui-framework'] === 'element-ui') { _%>
 import './vendor/element';
 <%_ } else if (options['ui-framework'] === 'iview') { _%>
