@@ -1,23 +1,22 @@
-'use strict';
+'use strict'
 
-const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+const path = require('path')
+const TerserPlugin = require('terser-webpack-plugin')
 
 // web title
 const name = 'vue-project'
 
-const resolve = (dir) => {
-  return path.join(__dirname, './', dir);
-};
+const resolve = dir => {
+  return path.join(__dirname, './', dir)
+}
 
 const isProd = () => {
-  return process.env.NODE_ENV === 'production';
-};
-
+  return process.env.NODE_ENV === 'production'
+}
 
 // 生产环境去掉 console.log
 const getOptimization = () => {
-  let optimization = {};
+  let optimization = {}
   if (isProd()) {
     optimization = {
       // https://webpack.docschina.org/configuration/optimization/#optimization-minimizer
@@ -34,10 +33,10 @@ const getOptimization = () => {
           }
         })
       ]
-    };
+    }
   }
-  return optimization;
-};
+  return optimization
+}
 
 module.exports = {
   /**
@@ -76,14 +75,15 @@ module.exports = {
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
-    extract: isProd() ? true : false,
+    extract: isProd(),
     // 开启 CSS source maps?
-    sourceMap: isProd() ? false : true,
+    sourceMap: isProd(),
     // css预设器配置项
     loaderOptions: {}
   },
   configureWebpack: () => ({
     name: name,
+    BASE_URL: './',
     resolve: {
       alias: {
         '@': resolve('src')
@@ -95,7 +95,7 @@ module.exports = {
   }),
   // webpack配置
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     // module
 
     // svg
@@ -103,7 +103,7 @@ module.exports = {
     config.module
       .rule('svg')
       .exclude.add(resolve('src/icons'))
-      .end();
+      .end()
     config.module
       .rule('icons')
       .test(/\.svg$/)
@@ -111,7 +111,7 @@ module.exports = {
       .end()
       .use('url-loader')
       .loader('url-loader')
-      .end();
+      .end()
 
     config
       // https://webpack.js.org/configuration/devtool/#development
@@ -121,64 +121,55 @@ module.exports = {
 
     // preload
     // runtime.js 内联的形式嵌入
-    config
-      .plugin('preload')
-      .tap(args => {
-        args[0].fileBlacklist.push(/runtime\./);
-        return args;
-      });
+    config.plugin('preload').tap(args => {
+      args[0].fileBlacklist.push(/runtime\./)
+      return args
+    })
 
     // webpack-html-plugin
-    config
-      .plugin('html')
-      .tap((args) => {
-        args[0].minify = {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: true,
-          minifyCSS: true,
-          minifyURLs: true
-        };
-        return args;
-      });
+    config.plugin('html').tap(args => {
+      args[0].minify = {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
+      return args
+    })
 
     // optimization
-    config
-      .when(process.env.NODE_ENV === 'production',
-        config => {
-          config
-            .plugin('ScriptExtHtmlWebpackPlugin')
-            .use('script-ext-html-webpack-plugin', [{
-              // `runtime` must same as runtimeChunk name. default is `runtime`
-              inline: /runtime\..*\.js$/
-            }]);
-          config
-            .optimization
-            .splitChunks({
-              chunks: 'all',
-              cacheGroups: {
-                vendors: {
-                  name: 'chunk-vendors',
-                  test: /[\\/]node_modules[\\/]/,
-                  priority: 10,
-                  chunks: 'initial' // 只打包初始时依赖的第三方
-                },
-                commons: {
-                  name: 'chunk-commons',
-                  test: resolve('src/components'), // 可自定义拓展你的规则
-                  minChunks: 3, // 最小公用次数
-                  priority: 5,
-                  reuseExistingChunk: true
-                }
-              }
-            });
-          config.optimization.runtimeChunk('single');
+    config.when(process.env.NODE_ENV === 'production', config => {
+      config.plugin('ScriptExtHtmlWebpackPlugin').use('script-ext-html-webpack-plugin', [
+        {
+          // `runtime` must same as runtimeChunk name. default is `runtime`
+          inline: /runtime\..*\.js$/
         }
-      );
+      ])
+      config.optimization.splitChunks({
+        chunks: 'all',
+        cacheGroups: {
+          vendors: {
+            name: 'chunk-vendors',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: 'initial' // 只打包初始时依赖的第三方
+          },
+          commons: {
+            name: 'chunk-commons',
+            test: resolve('src/components'), // 可自定义拓展你的规则
+            minChunks: 3, // 最小公用次数
+            priority: 5,
+            reuseExistingChunk: true
+          }
+        }
+      })
+      config.optimization.runtimeChunk('single')
+    })
   }
-};
+}
