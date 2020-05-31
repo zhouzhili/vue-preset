@@ -44,7 +44,6 @@ module.exports = (api, options, rootOptions) => {
       "html-webpack-plugin": "3.2.0",
       "script-ext-html-webpack-plugin": "2.1.3",
       "script-loader": "0.7.2",
-      "serve-static": "^1.13.2",
       "vue-template-compiler": "^2.6.11",
     },
   });

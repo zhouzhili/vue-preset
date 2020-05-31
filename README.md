@@ -1,7 +1,6 @@
 # vue-preset
 结合 vue-cli3 的 preset 搭建基于 git repo 的前端项目模板
 
-**注意：此模板不做维护，请移步[传送门](https://github.com/cklwblove/vue-preset)**
 
 ## 快速开始
 
@@ -10,20 +9,20 @@
 npm install -g @vue/cli
 
 # 根据远程 preset 创建项目
-vue create --preset cklwblove/vue-preset my-project
+vue create --preset zhouzhili/vue-preset my-project
 # or
-vue create --preset direct:https://github.com/cklwblove/vue-preset.git my-project --clone
+vue create --preset direct:https://github.com/zhouzhili/vue-preset.git my-project --clone
 
 # 本地预览
-cd my-project && yarn run serve
+cd my-project && npm run install && npm run dev
 
 ```
 
-## 文档
-```bash
-# 本地预览
-npm run docs:dev
+## 简介
 
-# 构建部署版本
-npm run docs:build
-```
+模板包含pc和mobile，
+
+PC模板根据[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)搭建，集成了elementUI，axios，js-cookie，nprogress等，使用scss预处理语言。
+
+Mobile模板集成了VantUI，集成了amfe-flexible、postcss-pxtorem，是要less预处理语言，并使用postcss根据375底稿，将px转为rem进行移动端适配。
+
