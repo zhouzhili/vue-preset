@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cklwblove/vue-preset.git"
+    "url": "git+https://github.com/zhouzhili/vue-preset.git"
   },
   "keywords": [
     "vue-cli3",
@@ -20,10 +20,7 @@
   "author": "zzl",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cklwblove/vue-preset/issues"
+    "url": "https://github.com/zhouzhili/vue-preset/issues"
   },
-  "homepage": "https://github.com/cklwblove/vue-preset#readme",
-  "devDependencies": {
-    "vuepress": "^0.14.8"
-  }
+  "homepage": "https://github.com/zhouzhili/vue-preset#readme"
 }

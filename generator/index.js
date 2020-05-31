@@ -54,6 +54,7 @@ module.exports = (api, options, rootOptions) => {
       dependencies: {
         "element-ui": "^2.13.2",
         "js-cookie": "2.2.0",
+        "normalize.css": "7.0.0",
         nprogress: "0.2.0",
         "path-to-regexp": "2.4.0",
       },
@@ -80,11 +81,10 @@ module.exports = (api, options, rootOptions) => {
       },
     });
   }
-
+  
   // 删除 vue-cli3 默认目录
   api.render((files) => {
     Object.keys(files)
-      .filter((path) => path.startsWith("src/") || path.startsWith("public/"))
       .forEach((path) => delete files[path]);
   });
 

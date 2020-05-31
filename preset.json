@@ -3,8 +3,8 @@
   "packageManager": "npm",
   "useTaobaoRegistry": true,
   "cssPreprocessor": "scss",
-  "router": true,
-  "vuex": true,
+  "router": false,
+  "vuex": false,
   "routerHistoryMode": false,
   "plugins": {
     "@vue/cli-plugin-babel": {}
