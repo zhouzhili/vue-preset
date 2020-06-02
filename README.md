@@ -24,7 +24,7 @@ cd my-project && npm run install && npm run dev
 
 PC模板根据[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)搭建，集成了elementUI，axios，js-cookie，nprogress等，使用scss预处理语言。
 
-Mobile模板集成了VantUI，集成了amfe-flexible、postcss-pxtorem，使用less预处理语言，并使用postcss根据375底稿，将px转为rem进行移动端适配。
+Mobile模板使用VantUI，集成了amfe-flexible、postcss-pxtorem，使用postcss根据375底稿，将px转为rem进行移动端适配。
 
 #### 说明
 
